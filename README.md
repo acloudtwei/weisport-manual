@@ -1,0 +1,2 @@
+# weisport-manual
+小米运动刷步数手动版是基于weipyweb库进行开发的一个刷步数镜像，通过python编写小米运动刷步数，然后weipyweb进行渲染成网页！
