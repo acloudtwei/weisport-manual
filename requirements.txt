@@ -1,0 +1,4 @@
+weipyweb
+apscheduler
+requests
+redis

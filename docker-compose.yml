@@ -1,0 +1,16 @@
+version: '1'
+
+services:
+  manual:
+    build: .
+    ports:
+      - 801:80
+    environment:
+      - TZ=Asia/Shanghai
+
+  redis:
+    image: redis:latest
+    volumes:
+      - ./:/redis-data
+    environment:
+      - TZ=Asia/Shanghai
