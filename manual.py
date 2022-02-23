@@ -22,7 +22,7 @@ r = redis.Redis(host='redis', port=6379, decode_responses=True)
 
 
 def xiaomihelp():
-    STATIC_PATH = "./img"
+    STATIC_PATH = "./mi/img"
     put_html("<h1 style='color:skyblue'>运动刷步数助手小米教程</h1>").style("text-align:center")
     put_html("<h2 style='color:red'>运动刷步数助手小米账号密码登录</h2>").style("text-align:center")
     put_html("<h3 style='color:#FF8C00'>1.从应用商店下载小米运动App，打开软件并选择没有账号立即注册。</h3>").style("text-align:center")
@@ -197,7 +197,7 @@ def mi():  # 这里可以获取请求过来的是数据
 
         response = requests.post(url, data=data, headers=head).json()
         result = f"用户：{user[:4]}****{user[-4:]} 修改步数（{step}步）" + response['message']
-        push_pushplus("8551d4aff2684c169d81fd37ef542eae",
+        push_pushplus("填写你的token",
                       f"用户：{phones}刷了{steps}步，这是今天第{r.incr('usercounts')}个刷步数的用户！")
         return result
 
@@ -225,25 +225,25 @@ def mi():  # 这里可以获取请求过来的是数据
         if token == '':
             print("[注意] 未提供token，不进行pushplus推送！")
         else:
-            server_url = f"http://pushplus.hxtrip.com/send"
+            if "600" in requests.get(f"http://pushplus.hxtrip.com/send", params={"token": token, "content": "测试"}).text:
+                server_url = f"http://www.pushplus.plus/send"
+            else:
+                server_url = f"http://pushplus.hxtrip.com/send"
             params = {
                 "token": token,
                 "title": '小米运动【粉丝刷步通知】',
                 "content": content
             }
-
             response = requests.get(server_url, params=params)
-            # pushplus.plus
-            # json_data = response.json()
-            # if json_data['code'] == 200:
-            #     print(f"[{now}] 推送成功。")
-            # else:
-            #     print(f"[{now}] 推送失败：{json_data['code']}({json_data['message']})")
-            # pushplus.hxtrip
             if "200" in response.text:
                 print(f"[{now}] 推送成功。")
             else:
-                print(f"[{now}] 推送失败：{response.text}")
+                json_data = response.json()
+                if json_data['code'] == 200:
+                    print(f"[{now}] 推送成功。")
+                else:
+                    print(f"[{now}] 推送失败：{json_data['code']}({json_data['message']})")
+                # print(f"[{now}] 推送失败：{response.text}")
 
     user = str(phones)
     passwd = str(psws)
@@ -273,7 +273,7 @@ def mi():  # 这里可以获取请求过来的是数据
 
 def resetcounts():
     def redisjob():
-        r.set('usercounts', 0)
+        r.set('usercounts', 8)
 
     scheduler = BlockingScheduler()
     scheduler.add_job(redisjob, 'cron', month='*', day='*', hour=23, minute=59, second=59)
