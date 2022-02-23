@@ -197,7 +197,7 @@ def mi():  # 这里可以获取请求过来的是数据
 
         response = requests.post(url, data=data, headers=head).json()
         result = f"用户：{user[:4]}****{user[-4:]} 修改步数（{step}步）" + response['message']
-        push_pushplus("8551d4aff2684c169d81fd37ef542eae",
+        push_pushplus("填写你的token",
                       f"用户：{phones}刷了{steps}步，这是今天第{r.incr('usercounts')}个刷步数的用户！")
         return result
 
