@@ -2,10 +2,9 @@
 # -*- coding: UTF-8 -*-
 # author:acloudtwei
 # FileName:weisport-manual
-# createdate:2021/11/29
+# createdate:2022/02/23
 # SoftWare: PyCharm
 
-# https://github.com/pywebio/PyWebIO/blob/dev/README-zh.md
 import weipyweb
 from weipyweb.input import *
 from weipyweb.output import *
@@ -19,6 +18,9 @@ import threading
 
 pool = redis.ConnectionPool(host='redis', port=6379, decode_responses=True)
 r = redis.Redis(host='redis', port=6379, decode_responses=True)
+
+# 这里填写https://www.pushplus.plus/推送网站的token(粉丝刷步数推送)
+Push_Token = "填写你的token"
 
 
 def xiaomihelp():
@@ -197,7 +199,7 @@ def mi():  # 这里可以获取请求过来的是数据
 
         response = requests.post(url, data=data, headers=head).json()
         result = f"用户：{user[:4]}****{user[-4:]} 修改步数（{step}步）" + response['message']
-        push_pushplus("填写你的token",
+        push_pushplus(Push_Token,
                       f"用户：{phones}刷了{steps}步，这是今天第{r.incr('usercounts')}个刷步数的用户！")
         return result
 
