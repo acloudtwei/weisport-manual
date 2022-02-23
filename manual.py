@@ -24,7 +24,7 @@ Push_Token = "填写你的token"
 
 
 def xiaomihelp():
-    STATIC_PATH = "./mi/img"
+    STATIC_PATH = "./img"
     put_html("<h1 style='color:skyblue'>运动刷步数助手小米教程</h1>").style("text-align:center")
     put_html("<h2 style='color:red'>运动刷步数助手小米账号密码登录</h2>").style("text-align:center")
     put_html("<h3 style='color:#FF8C00'>1.从应用商店下载小米运动App，打开软件并选择没有账号立即注册。</h3>").style("text-align:center")
